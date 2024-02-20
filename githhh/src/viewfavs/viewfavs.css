@@ -1,0 +1,40 @@
+/* Style for the schema items */
+.schema-item {
+    background-color: #368ac0;
+    color: white;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    overflow: hidden; 
+    /* overflow-x: scroll; */
+  }
+  
+  .schema-item:hover {
+    background-color: #19caf1; /* Darker background on hover */
+  }
+
+.scroll {
+    height: 75vh;
+    overflow: hidden;  
+}
+
+.scroll:hover {
+    overflow: auto; 
+}
+.svgbutton:hover{
+  background-color: #19caf1;
+}
+
+body::-webkit-scrollbar {
+  width: 0.1em;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: transparent; 
+}

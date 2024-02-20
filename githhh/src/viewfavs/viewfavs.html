@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Office JavaScript API -->
+    <script type="text/javascript" src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <!-- <script type="text/javascript" src="https://localhost:3000/localhost/src/taskpane/taskpane.js"></script> -->
+
+    <link rel="stylesheet" type="text/css" href="viewfavs.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        /* Style the close button (span) */
+        .close {
+            cursor: pointer;
+            top: 50%;
+            right: 0%;
+            padding: 2px 5px;
+            transform: translate(0%, -50%);
+        }
+
+        .open {
+            cursor: pointer;
+            top: 50%;
+            right: 0%;
+            padding: 2px 5px;
+            transform: translate(0%, -50%);
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body style="background-color: #e6e6e6;"  style="max-width:1046; max-height: 1475;">
+
+    <div class="container" style="max-width:100%; max-height: 100%;">
+        <div class="row">
+            <div class="col-3">
+                    <div id="refers-test">
+                        <input type="text"  placeholder="Search..." id="searchInput" style="margin-top: 10px; width: 85% ;">
+                        <!-- <img src="https://localhost:3000/assets/refresh.png" title="Refresh button" height="20px" width="20px" alt="refresh" style="float: left; padding-right: 20px; margin: 10px; cursor: pointer;"> -->
+                        <i id="refresh" class="material-icons" title="Refresh button" height="20px" width="20px" alt="refresh" style="float: right;  margin-top: 10px; cursor: pointer;">&#xe5d5;</i>
+                    </div>
+                    <!-- <div class="spinner-border text-primary"</div> -->
+                   <div class="d-none" id="spinner">
+                            <div class="d-flex mt-2 text-primary">
+                              <div class="spinner-border" role="status">
+                                <span class="sr-only"></span>
+                              </div>
+                              <h5 style="margin-left: 3px;">Loading...</h5>
+                            </div>
+                    </div>
+                    <div id="schemaList" style="overflow: hidden; overflow-y: scroll; margin-top: 6px; max-height: 1475px; margin-bottom: 6px">
+                    </div>
+                    <script>
+                        // let schemaList = document.getElementById('schemaList')
+                        // let itemheight = 50;
+                        // let itemcount  = 50;
+                        // let Gdynamiclist = (startindex,endindex) =>{
+                        //     let listhtml="";
+                        //     for(let i = startindex; i<=endindex;i++){
+                        //         listhtml +='<div style=height:'+itemheight+'px;'>'Item'+i+'</div>'
+                        //     }
+                        //     return listhtml;
+                        // }
+                        // Gdynamiclist()
+                        // const element = document.getElementById("body").addEventListener;
+                        // element.scrollHeight.addEventListener("scroll", (event) => {
+                        //     let y = element.scrollHeight;
+                        //     console.log(y+"height")
+                        //     });
+                        // window.addEventListener('scroll',()=>{
+                        // const scrollbar = document.documentElement.scrollHeight
+                        // const windowheight = window.innerHeight
+                        // const scrollbarVal = scrollbar - windowheight
+                        // console.log(scrollbar)
+                        // console.log(windowheight)
+                        // console.log(scrollbarVal)
+                        // let referstest = document.getElementById('refers-test')
+                        // const element = document.getElementById("body").clientHeight
+                        // let schemaList = document.getElementById('schemaList')
+                        // console.log(element)
+                        // // schemaList.style.maxHeight= element+"px"
+                        // schemaList.style.height= (scrollbar-referstest.scrollHeight)+"px"
+                        // })
+                    </script>
+            </div>
+            <div class="col-9" style="overflow: hidden; overflow-y: scroll; margin-top: 6px; max-height: 1500px;" id="body">
+                <div class="ms-Grid-col" style="font-size: 12px; margin-bottom: 2em;"></div>
+                <label for="UserQuery" style="margin-bottom: 10px; margin-left: 10px; width: 100%;">Enter your Query:
+                </label>
+                <textarea id="UserQuery" name="UserQuery" rows="3" cols="85"
+                     class="form-control"></textarea>
+                     <div style="margin-top: 10px;">
+                        <label for="queryname">Enter query Name:</label>
+                        <input type="text" id="queryname"/>
+                        <button type="button" class="btn btn-outline-secondary" id="Add" title="Add to Favorites"
+                        style="padding-top: 1px; margin-left: 15px; padding-left: 8px; padding-right: 8px;">
+                        <img width="25" height="25" src="https://localhost:3000/assets/addFav.png" alt="Infor" />
+                        <span class="visually-hidden">Button</span>
+                        </button>
+                    <!-- <button type="button" class="btn btn-outline-secondary" id="Editbutton" title="Send query to taskpane" style="padding-left: 6px;padding-right: 6px;border: 0px;border-radius: 50%;padding-top: 0px;">
+                        <img width="20" height="20" src="https://localhost:3000/assets/star.png" alt="Infor">
+                    </button> -->
+                    <button title="Send query to taskpane"  type="button" class="btn btn-outline-secondary" id="Editbutton" title="Add to Favorites"
+                    style="padding-top: 1px; margin-left: 15px; padding-left: 8px; padding-right: 8px; height: 30; width: 15;">
+                    <img width="25" height="25" src="https://localhost:3000/assets/Check-button.png" alt="Infor" />
+                    <span class="visually-hidden">Button</span>
+                    </button>
+                    </div>
+                <!-- <div class="col-md-14 scroll" style=" margin-top: 6px; height:75vh;"> -->
+                <div class="col-md-14">
+                    <!-- <label for="myInput">searchInput</label> -->
+                    <!-- <input type="text" name="" id="myInput" placeholder="searchInput..." onkeyup="searchFun()"/> -->
+                    <table class="table table-hover" style="font-size: 12px; display: none;" id="firstTabOverall">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="width: 10%;">S.No</th>
+                                <th scope="col" style="width: 35%;">Query</th>
+                                <th scope="col" style="width: 35%;">QueryName</th>
+                                <th scope="col" style="width: 10%;"></th>
+                                <th scope="col" style="width: 10%;"></th>
+                                <!-- <th scope="col" style="width: 10%;">edit</th> -->
+                            </tr>
+                        </thead>
+                        <tbody class="table_body" style="max-height: 50vh;">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal HTML -->
+    <div id="myModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalHeading"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="modalText"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script type="text/javascript" src="src/taskpane/taskpane.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql-formatter/12.2.4/sql-formatter.min.js"
+        integrity="sha512-wUrA8lDFdZBNbtpPR/0IjJem20aWUn2kE9E9d+gUed5tC7iuSllRN4FAxRn3GTj1EFmq9k4KJGoLmNpCfJYFQw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</body>
+
+</html>
